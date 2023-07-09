@@ -3,8 +3,6 @@ using UnityEngine;
 public class SpawnBuildings : ISetupStep
 {
     public int x, y;
-    Column[] tempColumn;
-    GameObject tempBuilding;
 
     public void RunStep()
     {
@@ -17,7 +15,7 @@ public class SpawnBuildings : ISetupStep
         {
             for (int j = 0; j < y; j++)
             {
-
+                TileGrid.Instance.column[i].row[j].GetComponent<Tile>().SpawnBuildings();
             }
         }
     }

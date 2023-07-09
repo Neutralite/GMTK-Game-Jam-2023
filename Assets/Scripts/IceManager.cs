@@ -13,7 +13,7 @@ public class IceManager : MonoBehaviour
         set
         {
             ice = value;
-            iceText.text = $"{ice}";
+            iceText.text = $"Snow Blocks: {ice}";
         }
     }
     private void Awake()

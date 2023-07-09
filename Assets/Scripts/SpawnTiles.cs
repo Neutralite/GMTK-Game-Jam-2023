@@ -35,6 +35,6 @@ public class SpawnTiles : ISetupStep
 
     void PickTile()
     {
-        tempTile = ObjectPoolManager.Instance.ReleaseObject(ObjectID.NWES);
+        tempTile = ObjectPoolManager.Instance.ReleaseObject((ObjectID)Random.Range(0,11));
     }
 }

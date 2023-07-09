@@ -3,16 +3,22 @@ using UnityEngine;
 public class Block : MonoBehaviour
 {
     static GameObject block;
-    public static int collected;
+    [SerializeField] bool breakable;
+
     public void Break()
     {
-        gameObject.SetActive(false);
-        ObjectPoolManager.Instance.ReturnObject(gameObject);
-        collected++;
+        if (breakable)
+        {
+            gameObject.SetActive(false);
+            ObjectPoolManager.Instance.ReturnObject(gameObject);
+            IceManager.Instance.Ice++;
+        }
     }
 
     public static void Build(Vector3 blockPos,Vector3 hitPos)
-    { 
+    {
+        print(blockPos);
+        print(hitPos);
         Vector3 difference = hitPos - blockPos;
         if (Mathf.Abs(difference.x) == 0.5f)
         {
@@ -27,9 +33,15 @@ public class Block : MonoBehaviour
             difference = difference.z > 0 ? Vector3.forward : Vector3.back;
         }
 
-        block = ObjectPoolManager.Instance.ReleaseObject(ObjectID.Snow);
-        block.transform.position = blockPos+difference;
-        block.SetActive(true);
-        collected--;
+        Vector3 newPos = blockPos + difference;
+        
+        // Cast a box to see if the player is standing where the block could be
+        if (!Physics.BoxCast(newPos+Vector3.up*2,Vector3.one/2,Vector3.down,Quaternion.identity,1,1<<3))
+        {
+            block = ObjectPoolManager.Instance.ReleaseObject(ObjectID.Snow);
+            block.transform.position = newPos;
+            block.SetActive(true);
+            IceManager.Instance.Ice--;
+        }
     }
 }

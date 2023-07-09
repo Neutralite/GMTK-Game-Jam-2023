@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     CharacterController controller;
     float x, z;
+
     [SerializeField]
     float speed=1f;
     private void Awake()
@@ -22,7 +23,7 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
-        if (/*GameStateManager.Instance.gameState== GameState.Playing*/true)
+        if (GameStateManager.Instance.gameState == GameState.Playing)
         {
             x = Input.GetAxis("Horizontal");
             z = Input.GetAxis("Vertical");
@@ -30,6 +31,11 @@ public class Player : MonoBehaviour
             Vector3 move = transform.right * x + transform.forward * z + Vector3.down;
 
             controller.Move(move * speed * Time.deltaTime);
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+
+            }
         }
     }
 }

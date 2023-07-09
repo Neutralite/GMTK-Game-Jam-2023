@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
         currentStep.RunStep();
         currentStep = new SpawnSnow { x = TileGrid.Instance.xWidth*5-2, y = TileGrid.Instance.zLength*5-2 };
         currentStep.RunStep();
+
+
         //Player.Instance.controller.enabled = false;
         //Player.Instance.transform.position = TileGrid.Instance.roadTiles[Random.Range(0, TileGrid.Instance.roadTiles.Count)].transform.position;
         //Player.Instance.transform.Translate(0f,0.05f,0);
@@ -44,10 +46,10 @@ public class GameManager : MonoBehaviour
             //    }
             //}
 
-            //if (HealthManager.Instance.Health == 0 || ScoreManager.Instance.Score == 20)
-            //{
-            //    GameStateManager.Instance.Restart();
-            //}
+            if (ObjectPoolManager.Instance.objectPools[(int)ObjectID.Snow].activeList.Count == 0)
+            {
+                GameStateManager.Instance.Restart();
+            }
         }
     }
 }

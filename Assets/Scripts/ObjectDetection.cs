@@ -3,11 +3,12 @@ using UnityEngine;
 public class ObjectDetection : MonoBehaviour
 {
     // Bit shift the index of the layer to get a bit mask
-    int rootLayer = 1 << 6;
+    int snowLayer = 1 << 6;
 
     private Camera mainCam;
     int mouseClick;
-
+    [SerializeField]
+    int range;
     // Start is called before the first frame update
     void Start()
     {
@@ -39,18 +40,25 @@ public class ObjectDetection : MonoBehaviour
         Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 15, rootLayer))
+        //if (Physics.Raycast(ray, out hit, range, 1<<3))
+        //{
+        //    goto Skip;
+        //}
+
+        if (Physics.Raycast(ray, out hit, range, snowLayer))
         {
             if (mouseClick == 1)
             {
                 hit.collider.GetComponent<Block>().Break();
             }
-            if (mouseClick == 2 && Block.collected > 0)
+            if (mouseClick == 2 && IceManager.Instance.Ice > 0)
             {
                 Block.Build(hit.collider.transform.position, hit.point);
+                print(hit.collider.name);
             }
         }
 
+        //Skip:
         mouseClick = 0;
     }
 }
